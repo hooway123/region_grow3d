@@ -60,7 +60,7 @@ public:
 };
 
 int get_neighbor_points(const Eigen::Vector3d &point, std::vector<Eigen::Vector3d> &neighbor_points); 
-bool is_point_in_vector(const std::vector<Eigen::Vector3d> &pv, const Eigen::Vector3d &point);
+inline bool is_point_in_vector(const std::vector<Eigen::Vector3d> &pv, const Eigen::Vector3d &point);
 RGRegion inflate_region(const RGProblem &problem, const RGOptions &options);
 bool is_required_point(const RGProblem &problem, const RGRegion &region, const Eigen::Vector3d &point);
 int get_new_candidiates(const RGProblem &problem, const RGRegion &region, std::vector<Eigen::Vector3d> &candidates);

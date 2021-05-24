@@ -11,7 +11,7 @@ int test_is_required_point()
   Eigen::Vector3d obs;
   // Inflate a region inside a 1x1 box 
   
-  obs << 0, 0, 0;
+  obs << 0, 0.1, 0.3;
   problem.addObstacle(obs);
   obs << 0, 0, 5; 
   problem.addObstacle(obs);
@@ -24,6 +24,8 @@ int test_is_required_point()
   obs << 5, 0, 5;
   problem.addObstacle(obs);
   obs << 5, 5, 0;
+  problem.addObstacle(obs);
+  obs << 5, 5, 5;
   problem.addObstacle(obs);
   obs << 5, 5, 5;
   problem.addObstacle(obs);
@@ -45,28 +47,86 @@ int main(int argc, char** argv) {
   
   rg::RGProblem problem;
 
-  problem.setSeedPoint(Eigen::Vector3d(3, 3, 3));
+  problem.setSeedPoint(Eigen::Vector3d(3, 3, 5));
 
   Eigen::Vector3d obs;
-  // Inflate a region inside a 1x1 box 
-  
-  obs << 0, 0, 0;
-  problem.addObstacle(obs);
-  obs << 0, 0, 10; 
-  problem.addObstacle(obs);
-  obs << 0, 10, 0;
-  problem.addObstacle(obs);
-  obs << 0, 10, 10;
-  problem.addObstacle(obs);
-  obs << 10, 0, 0;
-  problem.addObstacle(obs);
-  obs << 10, 0, 10;
-  problem.addObstacle(obs);
-  obs << 10, 10, 0;
-  problem.addObstacle(obs);
-  obs << 10, 10, 10;
+
+  obs << 3, 3, 3;
   problem.addObstacle(obs);
 
+  for (int i = 1; i < 4; i++)
+  {
+    for (int j = 1; j < 4; j++)
+    {
+      obs << 0.2, i, j;
+      problem.addObstacle(obs);
+    }
+  }
+
+  for (int i = 1; i < 4; i++)
+  {
+    for (int j = 1; j < 4; j++)
+    {
+      obs << 6, i, j;
+      problem.addObstacle(obs);
+    }
+  }
+
+  for (int i = 1; i < 4; i++)
+  {
+    for (int j = 1; j < 4; j++)
+    {
+      obs << i, 0, j;
+      problem.addObstacle(obs);
+    }
+  }
+
+  for (int i = 1; i < 4; i++)
+  {
+    for (int j = 1; j < 4; j++)
+    {
+      obs << i, 6, j;
+      problem.addObstacle(obs);
+    }
+  }
+
+  for (int i = 1; i < 4; i++)
+  {
+    for (int j = 1; j < 4; j++)
+    {
+      obs << i, j, 0;
+      problem.addObstacle(obs);
+    }
+  }
+
+  for (int i = 1; i < 4; i++)
+  {
+    for (int j = 1; j < 4; j++)
+    {
+      obs << i, j, 6;
+      problem.addObstacle(obs);
+    }
+  }
+
+  // Inflate a region inside a 1x1 box 
+ /* 
+  obs << 0, 0, 0;
+  problem.addObstacle(obs);
+  obs << 0, 0, 5; 
+  problem.addObstacle(obs);
+  obs << 0, 5, 0;
+  problem.addObstacle(obs);
+  obs << 0, 5, 5;
+  problem.addObstacle(obs);
+  obs << 5, 0, 0;
+  problem.addObstacle(obs);
+  obs << 5, 0, 5;
+  problem.addObstacle(obs);
+  obs << 5, 5, 0;
+  problem.addObstacle(obs);
+  obs << 5, 5, 5;
+  problem.addObstacle(obs);
+*/
   rg::RGOptions options;
 
   options.iter_limit = 100;

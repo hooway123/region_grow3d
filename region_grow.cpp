@@ -1,11 +1,14 @@
 #include "region_grow.h"
+#include "math.h"
 #include <iostream>
 
 namespace rg {
 
 void RGProblem::addObstacle(Eigen::Vector3d new_obstacle_vertices) 
 {
-  this->obstacle_pts.push_back(new_obstacle_vertices);
+  Eigen::Vector3d obstacle(round(new_obstacle_vertices.x()), round(new_obstacle_vertices.y()), round(new_obstacle_vertices.z())); 
+  //if (!isObstacle(obstacle))
+  this->obstacle_pts.push_back(obstacle);
 }
 
 void RGProblem::setSeedPoint(Eigen::Vector3d point) 
@@ -56,15 +59,9 @@ bool is_required_point(const RGProblem &problem, const RGRegion &region, const E
   return true;
 }
 
-bool is_point_in_vector(const std::vector<Eigen::Vector3d> &pv, const Eigen::Vector3d &point)
+inline bool is_point_in_vector(const std::vector<Eigen::Vector3d> &pv, const Eigen::Vector3d &point)
 {
-  for (auto it = pv.cbegin(); it != pv.cend(); ++it)
-  {
-    if (((*it).x() == point.x()) && ((*it).y() == point.y()) && ((*it).z() == point.z()))
-      return true;
-  }
-
-  return false;
+  return std::find(pv.begin(), pv.end(), point) != pv.end();
 }
 
 int get_neighbor_points(const Eigen::Vector3d &point, std::vector<Eigen::Vector3d> &neighbor_points)
