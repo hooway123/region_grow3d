@@ -23,6 +23,7 @@ public:
   Eigen::Vector3d getSeed() const;
   bool isObstacle(const Eigen::Vector3d &point) const;
   bool isObstacleOnPath(const Eigen::Vector3d &src, const Eigen::Vector3d &dst) const;
+  int getSubproblem(const Eigen::Vector3d &seed_point, const int range, RGProblem *subproblem);
 };
 
 class RGPoint

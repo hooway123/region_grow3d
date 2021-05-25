@@ -127,16 +127,27 @@ int main(int argc, char** argv) {
   obs << 5, 5, 5;
   problem.addObstacle(obs);
 */
+  rg::RGProblem subproblem;
+  problem.getSubproblem(Eigen::Vector3d(5, 5, 5), 3, &subproblem);
+  Eigen::Vector3d point = subproblem.getSeed();
+  std::cout << "sssss: " << point.x() << " " << point.y() << " " << point.z() << std::endl;
+  std::vector<Eigen::Vector3d> obstacles = problem.getObstacles();
+
+  for (auto it = obstacles.begin(); it != obstacles.end(); ++it)
+  {
+    std::cout << it->x() << "," << it->y() << "," << it->z() << std::endl;
+  }
+
   rg::RGOptions options;
 
   options.iter_limit = 100;
 
-  rg::RGRegion region = inflate_region(problem, options);
+  //rg::RGRegion region = inflate_region(problem, options);
 
-  for (auto it = region.region_bound_pts.begin(); it != region.region_bound_pts.end(); ++it)
-  {
-    std::cout << it->point.x() << "," << it->point.y() << "," << it->point.z() << std::endl;
-  }
+  //for (auto it = region.region_bound_pts.begin(); it != region.region_bound_pts.end(); ++it)
+  //{
+  //  std::cout << it->point.x() << "," << it->point.y() << "," << it->point.z() << std::endl;
+  //}
 
 
 

@@ -13,7 +13,7 @@ void RGProblem::addObstacle(Eigen::Vector3d new_obstacle_vertices)
 
 void RGProblem::setSeedPoint(Eigen::Vector3d point) 
 {
-  this->seed = point;
+  this->seed = Eigen::Vector3d(round(point.x()), round(point.y()), round(point.z()));
 }
 
 Eigen::Vector3d RGProblem::getSeed() const 
@@ -35,15 +35,32 @@ bool RGProblem::isObstacleOnPath(const Eigen::Vector3d &src, const Eigen::Vector
 {
   for (auto it = this->obstacle_pts.cbegin(); it != this->obstacle_pts.cend(); ++it)
   {
-    if ( ( (it->x() - src.x() >= 0) ^ (it->x() - dst.x() > 0) )
-    && ( (it->y() - src.y() >= 0) ^ (it->y() - dst.y() > 0) )
-    && ( (it->z() - src.z() >= 0) ^ (it->z() - dst.z() > 0) ) )
+    if ( ( (it->x() >= src.x()) ^ (it->x() > dst.x()) )
+    && ( (it->y() >= src.y()) ^ (it->y() > dst.y()) )
+    && ( (it->z() >= src.z()) ^ (it->z() > dst.z()) ) )
     {
       return true;
     }
   }
 
   return false;
+}
+
+int RGProblem::getSubproblem(const Eigen::Vector3d &seed_point, const int range, RGProblem *subproblem)
+{
+  subproblem->setSeedPoint(seed_point);
+
+  for (auto it = this->obstacle_pts.cbegin(); it != this->obstacle_pts.cend(); ++it)
+  {
+    Eigen::Vector3d diff = (*it) - seed_point;
+    
+    if (diff.norm() < range)
+    {
+      subproblem->addObstacle(*it);
+    }
+  }
+
+  return OK;
 }
 
 /*-------------------------------*/
@@ -127,14 +144,10 @@ RGRegion inflate_region(const RGProblem &problem, const RGOptions &options)
       for (auto it2 = neighbor_points.cbegin(); it2 != neighbor_points.cend(); ++it2)
       {
         if (is_point_in_vector(region.inner_pts, *it2))
-        {
           continue;
-        }
 
         if (is_point_in_vector(executed_candidates, *it2))
-        {
           continue;
-        }
 
         region.inner_pts.push_back(it->point);
         executed_candidates.push_back(*it2);
