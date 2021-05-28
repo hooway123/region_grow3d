@@ -32,6 +32,11 @@ public:
   Eigen::Vector3d point;
   bool is_boundary;
   RGPoint() {}
+  RGPoint(int &x, int &y, int &z, bool is_bound)
+  {
+    this->point = Eigen::Vector3d(x, y, z);
+    this->is_boundary = is_bound;
+  }
   RGPoint(Eigen::Vector3d pt)
   {
     this->point = pt;
@@ -50,6 +55,7 @@ public:
     RGPoint point(seed);
     region_bound_pts.push_back(point);
   }
+  
 };
 
 class RGOptions
