@@ -30,7 +30,7 @@ int test_is_required_point()
   obs << 5, 5, 5;
   problem.addObstacle(obs);
 
-  if (problem.isObstacleOnPath(Eigen::Vector3d(3, 4, 13), Eigen::Vector3d(3, 3, 3)))
+  if (problem.isObstacleOnPath(Eigen::Vector3d(3, 0, 0), Eigen::Vector3d(8, 1, 0)))
   {
     std::cout << "yes" << std::endl;
   }
@@ -45,20 +45,18 @@ int test_is_required_point()
 int main(int argc, char** argv) {
   //test_is_required_point();
   
+  
   rg::RGProblem problem;
 
-  problem.setSeedPoint(Eigen::Vector3d(3, 3, 5));
+  problem.setSeedPoint(Eigen::Vector3d(3, 3, 3));
 
   Eigen::Vector3d obs;
-
-  obs << 3, 3, 3;
-  problem.addObstacle(obs);
 
   for (int i = 1; i < 4; i++)
   {
     for (int j = 1; j < 4; j++)
     {
-      obs << 0.2, i, j;
+      obs << 0, i, j;
       problem.addObstacle(obs);
     }
   }
@@ -67,7 +65,7 @@ int main(int argc, char** argv) {
   {
     for (int j = 1; j < 4; j++)
     {
-      obs << 6, i, j;
+      obs << 5, i, j;
       problem.addObstacle(obs);
     }
   }
@@ -85,7 +83,7 @@ int main(int argc, char** argv) {
   {
     for (int j = 1; j < 4; j++)
     {
-      obs << i, 6, j;
+      obs << i, 5, j;
       problem.addObstacle(obs);
     }
   }
@@ -94,7 +92,7 @@ int main(int argc, char** argv) {
   {
     for (int j = 1; j < 4; j++)
     {
-      obs << i, j, 0;
+      obs << i, j, 5;
       problem.addObstacle(obs);
     }
   }
@@ -103,51 +101,32 @@ int main(int argc, char** argv) {
   {
     for (int j = 1; j < 4; j++)
     {
-      obs << i, j, 6;
+      obs << i, j, 5;
       problem.addObstacle(obs);
     }
   }
 
-  // Inflate a region inside a 1x1 box 
- /* 
-  obs << 0, 0, 0;
-  problem.addObstacle(obs);
-  obs << 0, 0, 5; 
-  problem.addObstacle(obs);
-  obs << 0, 5, 0;
-  problem.addObstacle(obs);
-  obs << 0, 5, 5;
-  problem.addObstacle(obs);
-  obs << 5, 0, 0;
-  problem.addObstacle(obs);
-  obs << 5, 0, 5;
-  problem.addObstacle(obs);
-  obs << 5, 5, 0;
-  problem.addObstacle(obs);
-  obs << 5, 5, 5;
-  problem.addObstacle(obs);
-*/
   rg::RGProblem subproblem;
-  problem.getSubproblem(Eigen::Vector3d(5, 5, 5), 3, &subproblem);
-  Eigen::Vector3d point = subproblem.getSeed();
-  std::cout << "sssss: " << point.x() << " " << point.y() << " " << point.z() << std::endl;
-  std::vector<Eigen::Vector3d> obstacles = problem.getObstacles();
+  problem.getSubproblem(Eigen::Vector3d(3, 3, 3), 10, &subproblem);
+  //Eigen::Vector3d point = subproblem.getSeed();
+  //std::cout << "sssss: " << point.x() << " " << point.y() << " " << point.z() << std::endl;
+  //std::vector<Eigen::Vector3d> obstacles = problem.getObstacles();
 
-  for (auto it = obstacles.begin(); it != obstacles.end(); ++it)
-  {
-    std::cout << it->x() << "," << it->y() << "," << it->z() << std::endl;
-  }
+  //for (auto it = obstacles.begin(); it != obstacles.end(); ++it)
+  //{
+  //  std::cout << it->x() << "," << it->y() << "," << it->z() << std::endl;
+  //}
 
   rg::RGOptions options;
 
   options.iter_limit = 100;
 
-  //rg::RGRegion region = inflate_region(problem, options);
+  rg::RGRegion region = inflate_region(problem, options);
 
-  //for (auto it = region.region_bound_pts.begin(); it != region.region_bound_pts.end(); ++it)
-  //{
-  //  std::cout << it->point.x() << "," << it->point.y() << "," << it->point.z() << std::endl;
-  //}
+  for (auto it = region.region_bound_pts.begin(); it != region.region_bound_pts.end(); ++it)
+  {
+    std::cout << it->point.x() << "," << it->point.y() << "," << it->point.z() << std::endl;
+  }
 
 
 

@@ -23,7 +23,9 @@ public:
   Eigen::Vector3d getSeed() const;
   bool isObstacle(const Eigen::Vector3d &point) const;
   bool isObstacleOnPath(const Eigen::Vector3d &src, const Eigen::Vector3d &dst) const;
+  bool isObstacleOnPath(const Eigen::Vector3d &src, const Eigen::Vector3d &dst, std::vector<Eigen::Vector3d> &obstacles) const;
   int getSubproblem(const Eigen::Vector3d &seed_point, const int range, RGProblem *subproblem);
+  int getInnerObstacles(const Eigen::Vector3d &upper_vertex, const Eigen::Vector3d &lower_vertex, std::vector<Eigen::Vector3d> *obstacles) const;
 };
 
 class RGPoint
@@ -66,10 +68,12 @@ public:
     iter_limit(100) {};
 };
 
+int get_important_obstacles(const RGProblem &problem, const RGRegion &region, std::vector<Eigen::Vector3d> &obstacles); 
 int get_neighbor_points(const Eigen::Vector3d &point, std::vector<Eigen::Vector3d> &neighbor_points); 
 inline bool is_point_in_vector(const std::vector<Eigen::Vector3d> &pv, const Eigen::Vector3d &point);
 RGRegion inflate_region(const RGProblem &problem, const RGOptions &options);
 bool is_required_point(const RGProblem &problem, const RGRegion &region, const Eigen::Vector3d &point);
+//bool is_required_point(const RGProblem &problem, const RGRegion &region, const Eigen::Vector3d &point, std::vector<Eigen::Vector3d> obstacles);
 int get_new_candidiates(const RGProblem &problem, const RGRegion &region, std::vector<Eigen::Vector3d> &candidates);
 
 } 
