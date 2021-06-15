@@ -6,7 +6,7 @@ int test_is_required_point()
 {
   rg::RGRegion region;
   rg::RGProblem problem;
-  problem.setSeedPoint(Eigen::Vector3d(3, 3, 3));
+  problem.setSeedPoint(Eigen::Vector3i(3, 3, 3));
 
   Eigen::Vector3d obs;
   // Inflate a region inside a 1x1 box 
@@ -30,7 +30,7 @@ int test_is_required_point()
   obs << 5, 5, 5;
   problem.addObstacle(obs);
 
-  if (problem.isObstacleOnPath(Eigen::Vector3d(3, 0, 0), Eigen::Vector3d(8, 1, 0)))
+  if (problem.isObstacleOnPath(Eigen::Vector3i(3, 0, 0), Eigen::Vector3i(8, 1, 0)))
   {
     std::cout << "yes" << std::endl;
   }
@@ -48,9 +48,9 @@ int main(int argc, char** argv) {
   
   rg::RGProblem problem;
 
-  problem.setSeedPoint(Eigen::Vector3d(3, 3, 3));
+  problem.setSeedPoint(Eigen::Vector3i(3, 3, 3));
 
-  Eigen::Vector3d obs;
+  Eigen::Vector3i obs;
 
   for (int i = 1; i < 4; i++)
   {
@@ -107,10 +107,10 @@ int main(int argc, char** argv) {
   }
 
   rg::RGProblem subproblem;
-  problem.getSubproblem(Eigen::Vector3d(3, 3, 3), 10, &subproblem);
-  //Eigen::Vector3d point = subproblem.getSeed();
+  problem.getSubproblem(Eigen::Vector3i(3, 3, 3), 10, &subproblem);
+  //Eigen::Vector3i point = subproblem.getSeed();
   //std::cout << "sssss: " << point.x() << " " << point.y() << " " << point.z() << std::endl;
-  //std::vector<Eigen::Vector3d> obstacles = problem.getObstacles();
+  //std::vector<Eigen::Vector3i> obstacles = problem.getObstacles();
 
   //for (auto it = obstacles.begin(); it != obstacles.end(); ++it)
   //{
